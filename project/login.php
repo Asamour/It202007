@@ -1,8 +1,9 @@
-  
 <?php require_once(__DIR__ . "/partials/nav.php"); ?>
     <form method="POST">
         <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required/>
+        <input type="email" id="email" name="email" />
+        <label for="username">Username:</label>
+        <input type="username" id="username" name="username" />
         <label for="p1">Password:</label>
         <input type="password" id="p1" name="password" required/>
         <input type="submit" name="login" value="Login"/>
@@ -12,22 +13,33 @@
 if (isset($_POST["login"])) {
     $email = null;
     $password = null;
+    $username = null;
     if (isset($_POST["email"])) {
         $email = $_POST["email"];
     }
     if (isset($_POST["password"])) {
         $password = $_POST["password"];
     }
+    if (isset($_POST["username"])) {
+        $password = $_POST["username"];
+    }
     $isValid = true;
-    if (!isset($email) || !isset($password)) {
+    if (!isset($email) and !isset($username)) {
         $isValid = false;
-        flash("Email or password missing");
+        flash("Email and username missing");
     }
-    if (!strpos($email, "@")) {
-        $isValid = false;
-        //echo "<br>Invalid email<br>";
-        flash("Invalid email");
+    elseif (!isset($password)) {
+        $isvalid = false;
+        flash("password missing");
     }
+    if (isset($email)) {
+        if (!strpos($email, "@")) {
+            $isValid = false;
+            //echo "<br>Invalid email<br>";
+            flash("Invalid email");
+        }
+    }
+
     if ($isValid) {
         $db = getDB();
         if (isset($db)) {

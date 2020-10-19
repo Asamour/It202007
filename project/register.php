@@ -18,7 +18,14 @@ if (isset($_POST["register"])) {
     if (isset($_POST["username"])) {
         $username = $_POST["username"];
     }
-    $isValid = true;
+    if (strlen($password) > 60) {
+        echo "Too many characters in password \n";
+        $isValid = false;
+    }
+    else {
+        $isValid = true;
+    }
+
     //check if passwords match on the server side
     if ($password == $confirm) {
         //not necessary to show
